@@ -132,6 +132,7 @@ namespace Pacman
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin();
             for (int x = 0; x < VX; x++)
             {
                 for (int y = 0; y < VY; y++)
@@ -172,7 +173,8 @@ namespace Pacman
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.End();
+            base.Draw(gameTime);
             base.Draw(gameTime);
         }
     }
