@@ -94,8 +94,8 @@ namespace Pacman
             graphics.PreferredBackBufferHeight = 660;
            graphics.ApplyChanges();
             // on charge un objet mur 
-            mur = new ObjetAnime(Content.Load<Texture2D>("mur"), new Vector2(0f, 0f), new Vector2(20f, 20f));
-            ObjetAnime bean = new ObjetAnime(Content.Load<Texture2D>("bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
+            mur = new ObjetAnime(Content.Load<Texture2D>("Images\\mur"), new Vector2(0f, 0f), new Vector2(20f, 20f));
+            bean = new ObjetAnime(Content.Load<Texture2D>("Images\\bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
 
 
         }
@@ -116,6 +116,7 @@ namespace Pacman
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            BeginDraw();
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
