@@ -18,12 +18,26 @@ namespace Pacman
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont textFont;
         private ObjetAnime mur;
         private ObjetAnime bean;
+        private Joueur joueur;
         private const int VX = 31;
         private const int VY = 28;
         private byte[,] map;
 
+        private static Dictionary<int, string> Textures() {
+            Dictionary<int, string> textures = new Dictionary<int, string>();
+            textures.Add(1, "Images\\pacman");
+            textures.Add(2, "Images\\pacman");
+            textures.Add(3, "Images\\pacman");
+            textures.Add(4, "Images\\pacman");
+            textures.Add(5, "Images\\pacman");
+            textures.Add(6, "Images\\pacman");
+            textures.Add(7, "Images\\pacman");
+            textures.Add(8, "Images\\pacman");
+            return textures;
+        }
 
         public Game1()
         {
@@ -62,9 +76,11 @@ namespace Pacman
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 
         };
-
+            joueur = new Joueur(new Pacman(this, Textures()));
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            
         }
 
         /// <summary>
@@ -88,7 +104,6 @@ namespace Pacman
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             //  changing the back buffer size changes the window size (when in windowed mode)
            graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 660;
@@ -98,7 +113,7 @@ namespace Pacman
             bean = new ObjetAnime(Content.Load<Texture2D>("Images\\bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
 
 
-        }
+        } 
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -120,8 +135,10 @@ namespace Pacman
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
-            // TODO: Add your update logic here
+            // TODO: Add your update logic her
+            Vector2 position = new Vector2(60f, 20f);
+            string text1 = string.Format("Debut de notre premier jeu coordonnees  : X = {0}   Y = {1}", position.X, position.Y);
+            spriteBatch.DrawString(this.textFont, text1, position, Color.DarkRed);
 
             base.Update(gameTime);
         }
@@ -174,7 +191,6 @@ namespace Pacman
 
             // TODO: Add your drawing code here
             spriteBatch.End();
-            base.Draw(gameTime);
             base.Draw(gameTime);
         }
     }
