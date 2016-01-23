@@ -24,8 +24,8 @@ namespace Pacman
         private Pacman pacman;
         private Joueur joueur;
         private GameEngine engine;
-        private const int VX = 31;
-        private const int VY = 28;
+        private const int VY = 31;
+        private const int VX = 28;
         private byte[,] map;
         private List<Message> messages;
         private bool test = true;
@@ -46,7 +46,7 @@ namespace Pacman
         public PacmanGame()
         {
 
-            map = new byte[VX, VY]{
+            map = new byte[VY,VX]{
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
             {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
@@ -84,7 +84,7 @@ namespace Pacman
             joueur = new Joueur();
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            engine = new GameEngine(map);
+            engine = new GameEngine(map,VX,VY);
 
             
         }
@@ -186,30 +186,30 @@ namespace Pacman
 
         private void drawMap() {            
 
-            for (int x = 0; x < VX; x++)
+            for (int y = 0; y < VY; y++)
             {
-                for (int y = 0; y < VY; y++)
+                for (int x = 0; x < VX; x++)
                 {
                     
                     if (false)
                     {
-                        String str = string.Format("pacman : X = {0}   Y = {1} = {2}", x, y, map[x, y]);
+                        String str = string.Format("pacman : X = {0}   Y = {1} = {2}", x, y, map[y, x]);
                         Console.WriteLine(str);
                     }
-                    if (map[x, y] == 0)
+                    if (map[y, x] == 0)
                     {
                         int xpos, ypos;
                         xpos = x * 20;
                         ypos = y * 20;
-                        Vector2 pos = new Vector2(ypos, xpos);
+                        Vector2 pos = new Vector2(xpos, ypos);
                         spriteBatch.Draw(mur.Texture, pos, Color.White);
                     }
-                    else if (map[x, y] == 1)
+                    else if (map[y, x] == 1)
                     {
                         int xpos, ypos;
                         xpos = x * 20;
                         ypos = y * 20;
-                        Vector2 pos = new Vector2(ypos, xpos);
+                        Vector2 pos = new Vector2(xpos,ypos);
                         spriteBatch.Draw(bean.Texture, pos, Color.White);
                     }
                 }

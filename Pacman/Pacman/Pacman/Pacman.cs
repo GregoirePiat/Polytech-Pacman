@@ -97,6 +97,7 @@ namespace Pacman
                 default:
                     break;
             }
+            p = getPacmanGame().getGameEngine().tp(p);
             bool collision = getPacmanGame().getGameEngine().wallCollision(p, direction);
 
             // begin debug

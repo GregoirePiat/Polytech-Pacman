@@ -10,10 +10,14 @@ namespace Pacman
     public class GameEngine
     {
         private byte[,] map;
+        private int sizeX;
+        private int sizeY;
 
-        public GameEngine(byte[,] map)
+        public GameEngine(byte[,] map,int sizeX,int sizeY)
         {
             this.map = map;
+            this.sizeX = sizeX;
+            this.sizeY = sizeY;
         }
 
         public Boolean wallCollision(Vector2 position, int direction) {
@@ -40,8 +44,24 @@ namespace Pacman
             return false;
         }
 
-        public int tp() {
-            return 0;
+        public Vector2 tp(Vector2 position) {
+            if (position.X > ((sizeX - 1) * 20)) {
+                position.X = 0;
+            }
+            if (position.Y > ((sizeY-1)*20))
+            {
+                position.Y = 0;
+            }
+
+            if (position.X < 0)
+            {
+                position.X = (sizeX - 1) * 20;
+            }
+            if (position.Y < 0)
+            {
+                position.Y = (sizeY - 1) * 20;
+            }
+            return position;
         }
     }
 }
