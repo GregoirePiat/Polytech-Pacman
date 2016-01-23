@@ -85,8 +85,8 @@ namespace Pacman
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             engine = new GameEngine(map,VX,VY);
+            messages = new List<Message>();
 
-            
         }
 
         /// <summary>
@@ -167,9 +167,6 @@ namespace Pacman
         }
 
         public void addMessage(Message message) {
-            if (messages == null) {
-                messages = new List<Message>();
-            }
             messages.Add(message);
         }
 

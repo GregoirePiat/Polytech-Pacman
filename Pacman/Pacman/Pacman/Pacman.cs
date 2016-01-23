@@ -65,17 +65,31 @@ namespace Pacman
 
         public override void Update(GameTime gameTime)
         {
-            int direction;
-            if ((direction = Controls.CheckAction()) != 0)
-                this.direction = direction;
-            this.move();
+            int lastDirection = direction;
+            changeDirection();
+
+            Vector2 p = this.move(pacman.Position,direction);
+            if (!runEngine(p))
+            {
+                p = this.move(pacman.Position, lastDirection);
+                if (!runEngine(p))
+                {
+                    direction = 0;
+                }
+                else {
+                    direction = lastDirection;
+                }
+            }
+
+
+
             this.textureUpdate();     
             base.Update(gameTime);
         }
 
-        public void move() {
-            
-            Vector2 p = pacman.Position;
+
+
+        public Vector2 move(Vector2 p,int direction) {            
             switch(direction) {
                 case 1:
                     p.X += SPEED.X;
@@ -97,31 +111,26 @@ namespace Pacman
                 default:
                     break;
             }
+            return p;
+        }
+
+        public Boolean runEngine(Vector2 p) {
+            
+
             p = getPacmanGame().getGameEngine().tp(p);
             bool collision = getPacmanGame().getGameEngine().wallCollision(p, direction);
-
-            // begin debug
-            Vector2 position = new Vector2(60f, 20f);
-            getPacmanGame().addMessage(new Message((String)string.Format("pacman : X = {0}   Y = {1}", p.X/20, p.Y / 20), position, 10));
-            Vector2 position3 = new Vector2(60f, 60f);
-            getPacmanGame().addMessage(new Message(string.Format("pacman : Collision = {0}", collision), position3, 10));
 
             // fin debug
             if (collision)
             {
-                direction = 0;
+                return false;
             }
             else
                 pacman.Position = p;
 
+            return true;
         }
 
-        private void refocus() {
-            Vector2 p = pacman.Position;
-            p.X = p.X  - (p.X % 20);
-            p.Y = p.Y  - (p.Y % 20);
-            pacman.Position = p;
-        }
 
         public override void Draw(GameTime gameTime)
         {
@@ -147,6 +156,12 @@ namespace Pacman
 
         private PacmanGame getPacmanGame() {
             return (PacmanGame)this.Game;
+        }
+
+        private void changeDirection() {
+            int direction;
+            if ((direction = Controls.CheckAction()) != 0)
+                this.direction = direction;            
         }
 
 
