@@ -5,34 +5,84 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using System.Diagnostics;
 
 namespace Pacman
 {
-    class Ghost : ObjetAnime
+    class Ghost : Entity
     {
-        public static Vector2 DEFAULT_GHOST_SIZE = new Vector2(20, 20);
-        public static Directions.Direction DEFAULT_GHOST_DIRECTION = Directions.Direction.up;
+        private static int ID = 0;      
+        private Stopwatch watch;
 
-        private ContentManager contentManager;
-        private string initialTexture;
-        private bool eatableGhostState;
+        private int id;
+        private int timeChange;
 
-        public Ghost(ContentManager contentManager, string ghostTexture, Vector2 position, Vector2 spawnPoint) : base(contentManager.Load<Texture2D>(ghostTexture), DEFAULT_GHOST_SIZE, position)
+        private static Dictionary<int, string> Textures(String color)
         {
-            this.contentManager = contentManager;
-            this.initialTexture = ghostTexture;
-            this.eatableGhostState = false;
+            Dictionary<int, string> textures = new Dictionary<int, string>();
+            if (color == "red")
+            {
+                textures.Add(1, "Images\\fantomeRouge");
+                textures.Add(2, "Images\\FantomePeur0");
+                textures.Add(3, "Images\\FantomePeur1");
+            }
+            if (color == "blue")
+            {
+                textures.Add(1, "Images\\fantomeBleu");
+                textures.Add(2, "Images\\FantomePeur0");
+                textures.Add(3, "Images\\FantomePeur1");
+            }
+            if (color == "pink")
+            {
+                textures.Add(1, "Images\\fantomeRose");
+                textures.Add(2, "Images\\FantomePeur0");
+                textures.Add(3, "Images\\FantomePeur1");
+            }
+            if (color == "green")
+            {
+                textures.Add(1, "Images\\fantomeVert");
+                textures.Add(2, "Images\\FantomePeur0");
+                textures.Add(3, "Images\\FantomePeur1");
+            }
+
+            return textures;
         }
 
-        public void updateTexture()
+        public Ghost(Game game, string name)
+            : base(game, Textures(name))
         {
-            Texture = contentManager.Load<Texture2D>(@"resources\images\eatable_ghost\eatable_ghost_" + (eatableGhostState ? "1" : "0"));
-            eatableGhostState = !eatableGhostState;
+            watch = Stopwatch.StartNew();
+            direction = 4;
+            id = ++ID;
+            timeChange = 600 + id * 300;
         }
 
-        public void resetTexture()
+        public override void Initialize()
         {
-            Texture = contentManager.Load<Texture2D>(initialTexture);
+            positionInit = new Vector2(280f, 260f);
+            base.Initialize();            
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        override protected void changeDirection()
+        {
+            if (direction == 0 || watch.ElapsedMilliseconds > timeChange)
+            {
+                Random random = new Random();
+                direction = random.Next(1, 5);
+                watch.Restart();
+            }
+
+        }
+
+        override
+        protected void textureUpdate()
+        {
+
         }
     }
 }

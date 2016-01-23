@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;  //  for Vector2
 
 namespace Pacman
 {
-    class ObjetAnime
+    public class ObjetAnime
     {
         private Texture2D _texture;    //  sprite texture 
 

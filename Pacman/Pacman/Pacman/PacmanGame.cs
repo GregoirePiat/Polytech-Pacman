@@ -22,6 +22,7 @@ namespace Pacman
         private ObjetAnime mur;
         private ObjetAnime bean;
         private Pacman pacman;
+        private List<Ghost> ghosts;
         private Joueur joueur;
         private GameEngine engine;
         private const int VY = 31;
@@ -30,18 +31,7 @@ namespace Pacman
         private List<Message> messages;
         private bool test = true;
 
-        private static Dictionary<int, string> Textures() {
-            Dictionary<int, string> textures = new Dictionary<int, string>();
-            textures.Add(0, "Images\\pacman");
-            textures.Add(1, "Images\\pacman_f");
-            textures.Add(2, "Images\\pacman_2");
-            textures.Add(3, "Images\\pacman_2f");
-            textures.Add(4, "Images\\pacman_3");
-            textures.Add(5, "Images\\pacman_3f");
-            textures.Add(6, "Images\\pacman_4");
-            textures.Add(7, "Images\\pacman_4f");
-            return textures;
-        }
+        
 
         public PacmanGame()
         {
@@ -80,7 +70,17 @@ namespace Pacman
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 
         };
-            pacman = new Pacman(this, Textures());
+            pacman = new Pacman(this);
+            ghosts = new List<Ghost>();
+            ghosts.Add(new Ghost(this, "red"));
+            System.Threading.Thread.Sleep(50);
+            ghosts.Add(new Ghost(this, "blue"));
+            System.Threading.Thread.Sleep(50);
+            ghosts.Add(new Ghost(this, "pink"));
+            System.Threading.Thread.Sleep(50);
+            ghosts.Add(new Ghost(this, "green"));
+
+
             joueur = new Joueur();
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
