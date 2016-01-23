@@ -102,8 +102,6 @@ namespace Pacman
             // begin debug
             Vector2 position = new Vector2(60f, 20f);
             getPacmanGame().addMessage(new Message((String)string.Format("pacman : X = {0}   Y = {1}", p.X/20, p.Y / 20), position, 10));
-            Vector2 position2 = new Vector2(60f, 40f);
-            getPacmanGame().addMessage(new Message((String)string.Format("pacman : X = {0}   Y = {1}", pacman.Position.X / 20, pacman.Position.Y / 20), position2, 10));
             Vector2 position3 = new Vector2(60f, 60f);
             getPacmanGame().addMessage(new Message(string.Format("pacman : Collision = {0}", collision), position3, 10));
 

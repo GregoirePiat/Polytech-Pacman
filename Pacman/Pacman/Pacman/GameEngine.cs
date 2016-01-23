@@ -34,12 +34,14 @@ namespace Pacman
             if (x < 0)
                 x = 0;
 
-            Console.WriteLine(x);
+            
             if (map[y, x] == 0)
                 return true;
             return false;
         }
 
-        public int tp()
+        public int tp() {
+            return 0;
+        }
     }
 }
