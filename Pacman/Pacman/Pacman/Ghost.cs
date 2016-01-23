@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace Pacman
 {
-    class Ghost : Entity
+    public class Ghost : Entity
     {
         private static int ID = 0;      
         private Stopwatch watch;
@@ -23,24 +23,22 @@ namespace Pacman
             if (color == "red")
             {
                 textures.Add(1, "Images\\fantomeRouge");
-                textures.Add(2, "Images\\FantomePeur0");
-                textures.Add(3, "Images\\FantomePeur1");
             }
             if (color == "blue")
             {
                 textures.Add(1, "Images\\fantomeBleu");
-                textures.Add(2, "Images\\FantomePeur0");
-                textures.Add(3, "Images\\FantomePeur1");
             }
             if (color == "pink")
             {
                 textures.Add(1, "Images\\fantomeRose");
-                textures.Add(2, "Images\\FantomePeur0");
-                textures.Add(3, "Images\\FantomePeur1");
             }
             if (color == "green")
             {
                 textures.Add(1, "Images\\fantomeVert");
+            }
+
+            if (color == "red" || color == "blue" || color == "red" || color == "green")
+            {
                 textures.Add(2, "Images\\FantomePeur0");
                 textures.Add(3, "Images\\FantomePeur1");
             }
@@ -77,6 +75,11 @@ namespace Pacman
                 watch.Restart();
             }
 
+        }
+
+        public void respawn()
+        {
+            // When the Ghost has been eated
         }
 
         override

@@ -11,6 +11,7 @@ namespace Pacman
     {
         private const int REFRESH_RATE = 10;
         private int refreshSwitch;
+        private bool isInvincible = false;
         
         private Boolean textureSwitch;
 
@@ -66,5 +67,10 @@ namespace Pacman
 
         }
 
+        public bool IsInvincible
+        {
+            get { return isInvincible; }
+            set { isInvincible = value; }
+        }
     }
 }

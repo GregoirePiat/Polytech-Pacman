@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Pacman
 {
@@ -30,6 +30,15 @@ namespace Pacman
         private byte[,] map;
         private List<Message> messages;
         private bool test = true;
+        public int nbBeanTotal = 0;
+        public int nbBeanRemaining = 0;
+        public int nbLifes = 0;
+
+        // Gestion des scores
+        public int scoreEatBean = 100;
+        public int scoreEatBooster = 200;
+        public int scoreEatGhost = 1000;
+        public int playerScore = 0;
 
         
 
@@ -86,6 +95,8 @@ namespace Pacman
             Content.RootDirectory = "Content";
             engine = new GameEngine(map,VX,VY);
             messages = new List<Message>();
+
+
 
         }
 
@@ -187,7 +198,6 @@ namespace Pacman
             {
                 for (int x = 0; x < VX; x++)
                 {
-                    
                     if (false)
                     {
                         String str = string.Format("pacman : X = {0}   Y = {1} = {2}", x, y, map[y, x]);
@@ -216,6 +226,29 @@ namespace Pacman
 
         public GameEngine getGameEngine() {
             return engine;
+        }
+
+        public void pacmanEatBooster()
+        {
+            pacmanEatBean();
+            pacman.IsInvincible = true;
+            playerScore += scoreEatBooster;
+        }
+
+        public void pacmanEatBean()
+        {
+            -- nbBeanRemaining;
+            playerScore += scoreEatBean;
+        }
+
+        public void pacmanEatGhost(Ghost ghost)
+        {
+            playerScore += scoreEatGhost;
+        }
+
+        public void eatedByGhost()
+        {
+            --nbLifes;
         }
 
     }
