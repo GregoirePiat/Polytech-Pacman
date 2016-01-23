@@ -14,32 +14,35 @@ namespace Pacman
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class PacmanGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont textFont;
         private ObjetAnime mur;
         private ObjetAnime bean;
+        private Pacman pacman;
         private Joueur joueur;
+        private GameEngine engine;
         private const int VX = 31;
         private const int VY = 28;
         private byte[,] map;
+        private List<Message> messages;
 
         private static Dictionary<int, string> Textures() {
             Dictionary<int, string> textures = new Dictionary<int, string>();
-            textures.Add(1, "Images\\pacman");
-            textures.Add(2, "Images\\pacman");
-            textures.Add(3, "Images\\pacman");
-            textures.Add(4, "Images\\pacman");
-            textures.Add(5, "Images\\pacman");
-            textures.Add(6, "Images\\pacman");
-            textures.Add(7, "Images\\pacman");
-            textures.Add(8, "Images\\pacman");
+            textures.Add(0, "Images\\pacman");
+            textures.Add(1, "Images\\pacman_f");
+            textures.Add(2, "Images\\pacman_2");
+            textures.Add(3, "Images\\pacman_2f");
+            textures.Add(4, "Images\\pacman_3");
+            textures.Add(5, "Images\\pacman_3f");
+            textures.Add(6, "Images\\pacman_4");
+            textures.Add(7, "Images\\pacman_4f");
             return textures;
         }
 
-        public Game1()
+        public PacmanGame()
         {
 
             map = new byte[VX, VY]{
@@ -57,7 +60,7 @@ namespace Pacman
             {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 2, 2, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
             {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
@@ -76,9 +79,11 @@ namespace Pacman
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 
         };
-            joueur = new Joueur(new Pacman(this, Textures()));
+            pacman = new Pacman(this, Textures());
+            joueur = new Joueur();
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            engine = new GameEngine(map);
 
             
         }
@@ -92,7 +97,7 @@ namespace Pacman
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             base.Initialize();
         }
 
@@ -103,15 +108,17 @@ namespace Pacman
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            
             //  changing the back buffer size changes the window size (when in windowed mode)
-           graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 660;
-           graphics.ApplyChanges();
+            graphics.ApplyChanges();
             // on charge un objet mur 
             mur = new ObjetAnime(Content.Load<Texture2D>("Images\\mur"), new Vector2(0f, 0f), new Vector2(20f, 20f));
             bean = new ObjetAnime(Content.Load<Texture2D>("Images\\bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
-
+            textFont = Content.Load<SpriteFont>("aFont");
+            Vector2 position = new Vector2(60f, 20f);
+            addMessage(new Message(string.Format("Debut de notre premier jeu coordonnees  : X = {0}   Y = {1}", position.X, position.Y), position));
 
         } 
 
@@ -136,9 +143,7 @@ namespace Pacman
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
             // TODO: Add your update logic her
-            Vector2 position = new Vector2(60f, 20f);
-            string text1 = string.Format("Debut de notre premier jeu coordonnees  : X = {0}   Y = {1}", position.X, position.Y);
-            spriteBatch.DrawString(this.textFont, text1, position, Color.DarkRed);
+            
 
             base.Update(gameTime);
         }
@@ -150,6 +155,36 @@ namespace Pacman
         protected override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
+
+            drawMap();
+            drawMessage();
+            
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            // TODO: Add your drawing code here
+            spriteBatch.End();
+            base.Draw(gameTime);
+        }
+
+        public void addMessage(Message message) {
+            if (messages == null) {
+                messages = new List<Message>();
+            }
+            messages.Add(message);
+        }
+
+        public void drawMessage() {
+            for(int i = 0; i < messages.Count; i++) {
+                Message message = messages.ElementAt(i);
+                spriteBatch.DrawString(this.textFont, message.Text, message.Position, Color.DarkRed);
+                if (message.isObsolete()) {
+                    messages.Remove(message);
+                    i--;
+                }
+            }
+        }
+
+        private void drawMap() {
             for (int x = 0; x < VX; x++)
             {
                 for (int y = 0; y < VY; y++)
@@ -187,11 +222,6 @@ namespace Pacman
                     }
                 }
             }
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-            spriteBatch.End();
-            base.Draw(gameTime);
         }
     }
 }

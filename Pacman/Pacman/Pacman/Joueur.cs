@@ -8,12 +8,7 @@ namespace Pacman
     class Joueur
     {
         private int score;
-        private Pacman pacman;
-
-        public Joueur(Pacman pacman) {
-            this.pacman = pacman;
-            this.score = 0;
-        }
+        private int life;
 
         public int Score
         {
@@ -28,35 +23,25 @@ namespace Pacman
             }
         }
 
-        public Pacman Pacman
+        public int Life
         {
             get
             {
-                return pacman;
+                return life;
             }
 
             set
             {
-                pacman = value;
+                life = value;
             }
         }
 
-        public void actionRight()
-        {
-            
+        public Joueur() {
+            this.Score = 0;
+            this.Life = 3;
         }
 
-        public void actionLeft()
-        {
+        
 
-        }
-        public void actionUp()
-        {
-
-        }
-        public void actionDown()
-        {
-
-        }
     }
 }

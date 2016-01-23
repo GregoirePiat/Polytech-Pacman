@@ -74,12 +74,13 @@
   <ItemGroup>
     <Compile Include="Controls.cs" />
     <Compile Include="Joueur.cs" />
-    <Compile Include="MoteurJeu.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="GameEngine.cs" />
     <Compile Include="ObjetAnime.cs" />
     <Compile Include="Pacman.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Game1.cs" />
+    <Compile Include="PacmanGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

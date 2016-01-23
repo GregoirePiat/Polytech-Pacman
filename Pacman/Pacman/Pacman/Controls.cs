@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Pacman
 {
-    class Controls
+    public class Controls
     {
         public const Keys JOUEUR_UP = Keys.Up;
         public const Keys JOUEUR_DOWN = Keys.Down;
@@ -14,24 +14,27 @@ namespace Pacman
         public const Keys JOUEUR_RIGHT = Keys.Right;
 
         // Vérifie si le joueur passé en paramètre a effectué l'action "monter la raquette"
-        public static Boolean CheckActionUp(Joueur joueur)
+        public static int CheckAction()
         {
-            Boolean checkActionUp = false;
+            int checkAction = 0;
             KeyboardState keyboard = Keyboard.GetState();
-            if (keyboard.IsKeyDown(JOUEUR_UP)) {
+            if (keyboard.IsKeyDown(JOUEUR_UP))
+            {
+                checkAction = 4;
+            }
+            if (keyboard.IsKeyDown(JOUEUR_DOWN))
+            {
+                checkAction = 3;
+            }
+            if (keyboard.IsKeyDown(JOUEUR_LEFT))
+            {
+                checkAction = 2;
+            }
+            if (keyboard.IsKeyDown(JOUEUR_RIGHT)) { 
+                checkAction = 1;
+            }
 
-            }
-            if (keyboard.IsKeyDown(JOUEUR_UP))
-            {
-            }
-            if (keyboard.IsKeyDown(JOUEUR_UP))
-            {
-            }
-            if (keyboard.IsKeyDown(JOUEUR_UP))
-            {
-            }
-
-            return checkActionUp;
+            return checkAction;
         }
 
         

@@ -10,7 +10,7 @@ namespace Pacman
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (PacmanGame game = new PacmanGame())
             {
                 game.Run();
             }
