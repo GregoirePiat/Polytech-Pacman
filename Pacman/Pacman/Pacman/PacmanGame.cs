@@ -28,6 +28,7 @@ namespace Pacman
         private const int VY = 28;
         private byte[,] map;
         private List<Message> messages;
+        private bool test = true;
 
         private static Dictionary<int, string> Textures() {
             Dictionary<int, string> textures = new Dictionary<int, string>();
@@ -117,8 +118,7 @@ namespace Pacman
             mur = new ObjetAnime(Content.Load<Texture2D>("Images\\mur"), new Vector2(0f, 0f), new Vector2(20f, 20f));
             bean = new ObjetAnime(Content.Load<Texture2D>("Images\\bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
             textFont = Content.Load<SpriteFont>("aFont");
-            Vector2 position = new Vector2(60f, 20f);
-            addMessage(new Message(string.Format("Debut de notre premier jeu coordonnees  : X = {0}   Y = {1}", position.X, position.Y), position));
+            
 
         } 
 
@@ -184,26 +184,18 @@ namespace Pacman
             }
         }
 
-        private void drawMap() {
-            for (int x = 0; x < VX; x++)
-            {
-                for (int y = 0; y < VY; y++)
-                {
-                    if (map[x, y] == 0)
-                    {
-                        int xpos, ypos;
-                        xpos = x * 20;
-                        ypos = y * 20;
-                        Vector2 pos = new Vector2(ypos, xpos);
-                        spriteBatch.Draw(mur.Texture, pos, Color.White);
-                    }
-                }
-            }
+        private void drawMap() {            
 
             for (int x = 0; x < VX; x++)
             {
                 for (int y = 0; y < VY; y++)
                 {
+                    
+                    if (false)
+                    {
+                        String str = string.Format("pacman : X = {0}   Y = {1} = {2}", x, y, map[x, y]);
+                        Console.WriteLine(str);
+                    }
                     if (map[x, y] == 0)
                     {
                         int xpos, ypos;
@@ -222,6 +214,7 @@ namespace Pacman
                     }
                 }
             }
+            test = false;
         }
 
         public GameEngine getGameEngine() {

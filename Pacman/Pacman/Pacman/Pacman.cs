@@ -65,38 +65,63 @@ namespace Pacman
 
         public override void Update(GameTime gameTime)
         {
-            this.move();
-            this.textureUpdate();
             int direction;
-            if((direction = Controls.CheckAction()) != 0)
+            if ((direction = Controls.CheckAction()) != 0)
                 this.direction = direction;
+            this.move();
+            this.textureUpdate();     
             base.Update(gameTime);
         }
 
         public void move() {
+            
             Vector2 p = pacman.Position;
             switch(direction) {
                 case 1:
                     p.X += SPEED.X;
+                    p.Y -= p.Y % 20;
                     break;
                 case 2:
                     p.X -= SPEED.X;
+                    p.Y -= p.Y % 20;
                     break;
                 case 3:
                     p.Y += SPEED.Y;
+                    p.X -= p.X % 20;
                     break;
                 case 4:
-                    p.Y -= SPEED.Y;                    
+                    p.Y -= SPEED.Y;
+                    p.X -= p.X % 20;
                     break;                                          
                 
                 default:
                     break;
             }
-            if (getPacmanGame().getGameEngine().wallCollision(p))
+            bool collision = getPacmanGame().getGameEngine().wallCollision(p, direction);
+
+            // begin debug
+            Vector2 position = new Vector2(60f, 20f);
+            getPacmanGame().addMessage(new Message((String)string.Format("pacman : X = {0}   Y = {1}", p.X/20, p.Y / 20), position, 10));
+            Vector2 position2 = new Vector2(60f, 40f);
+            getPacmanGame().addMessage(new Message((String)string.Format("pacman : X = {0}   Y = {1}", pacman.Position.X / 20, pacman.Position.Y / 20), position2, 10));
+            Vector2 position3 = new Vector2(60f, 60f);
+            getPacmanGame().addMessage(new Message(string.Format("pacman : Collision = {0}", collision), position3, 10));
+
+            // fin debug
+            if (collision)
+            {
                 direction = 0;
+            }
             else
                 pacman.Position = p;
 
+        }
+
+        private void refocus() {
+            Vector2 p = pacman.Position;
+            p.X = p.X  - (p.X % 20);
+            p.Y = p.Y  - (p.Y % 20);
+            pacman.Position = p;
         }
 
         public override void Draw(GameTime gameTime)
