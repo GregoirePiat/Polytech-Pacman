@@ -73,6 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls.cs" />
+    <Compile Include="Directions.cs" />
+    <Compile Include="Ghost.cs" />
     <Compile Include="Joueur.cs" />
     <Compile Include="MoteurJeu.cs" />
     <Compile Include="ObjetAnime.cs" />
