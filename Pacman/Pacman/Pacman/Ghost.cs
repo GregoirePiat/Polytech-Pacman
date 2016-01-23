@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace Pacman
 {
@@ -14,7 +17,7 @@ namespace Pacman
         private string initialTexture;
         private bool eatableGhostState;
 
-        public Ghost(ContentManager contentManager, string ghostTexture, Vector2 position, Vector2 spawnPoint) : base(contentManager.Load<Texture2D>(ghostTexture), DEFAULT_GHOST_SIZE, DEFAULT_GHOST_DIRECTION, position, spawnPoint)
+        public Ghost(ContentManager contentManager, string ghostTexture, Vector2 position, Vector2 spawnPoint) : base(contentManager.Load<Texture2D>(ghostTexture), DEFAULT_GHOST_SIZE, position)
         {
             this.contentManager = contentManager;
             this.initialTexture = ghostTexture;

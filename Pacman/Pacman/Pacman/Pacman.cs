@@ -92,7 +92,10 @@ namespace Pacman
                 default:
                     break;
             }
-            pacman.Position = p;
+            if (getPacmanGame().getGameEngine().wallCollision(p))
+                direction = 0;
+            else
+                pacman.Position = p;
 
         }
 

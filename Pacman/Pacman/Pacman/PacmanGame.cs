@@ -223,5 +223,10 @@ namespace Pacman
                 }
             }
         }
+
+        public GameEngine getGameEngine() {
+            return engine;
+        }
+
     }
 }

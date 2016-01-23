@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Pacman
 {
-    class GameEngine
+    public class GameEngine
     {
         private byte[,] map;
 
@@ -17,8 +17,8 @@ namespace Pacman
         }
 
         public Boolean wallCollision(Vector2 position) {
-            int x = (int)(position.X / 20);
-            int y = (int)(position.Y / 20);
+            int x = (int)((position.X + 20 )/ 20);
+            int y = (int)((position.Y + 20 )/ 20);
 
             if (map[x, y] == 0)
                 return true;
