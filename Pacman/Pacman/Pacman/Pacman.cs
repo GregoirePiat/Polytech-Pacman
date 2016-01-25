@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Pacman
 {
-    class Pacman : Entity
+    public class Pacman : Entity
     {
         private const int REFRESH_RATE = 10;
         private int refreshSwitch;

@@ -63,5 +63,32 @@ namespace Pacman
             }
             return position;
         }
+
+        public bool eatBean(Pacman pacman) {
+            int x = (int)(pacman.element.Position.X / 20);
+            int y = (int)(pacman.element.Position.Y / 20);
+            if (y < 0)
+                y = 0;
+            if (x < 0)
+                x = 0;
+
+
+            if (map[y, x] == 1)
+            {
+                map[y, x] = 2;
+                return true;
+            }               
+            return false;
+        }
+
+        public Boolean ghostCollision(Pacman pacman, Ghost ghost) {
+
+            if ((pacman.element.Position.X < ghost.element.Position.X +20 &&
+                pacman.element.Position.X > ghost.element.Position.X - 20)
+                && (pacman.element.Position.Y < ghost.element.Position.Y + 20 &&
+                pacman.element.Position.Y > ghost.element.Position.Y - 20))
+                return true;
+            return false;
+        }
     }
 }
