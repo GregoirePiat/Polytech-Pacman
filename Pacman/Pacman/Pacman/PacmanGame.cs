@@ -41,13 +41,13 @@ namespace Pacman
         public int scoreEatGhost = 1000;
         public int playerScore = 0;
 
-        
+
 
         public PacmanGame()
         {
 
-            map = new byte[VY,VX]{
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            map = new byte[VY, VX]{
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0},
             {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
             {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
@@ -77,7 +77,7 @@ namespace Pacman
             {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
             {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
             {0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 
         };
             pacman = new Pacman(this);
@@ -94,8 +94,11 @@ namespace Pacman
             joueur = new Joueur();
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            engine = new GameEngine(map,VX,VY);
+            engine = new GameEngine(map, VX, VY);
             messages = new List<Message>();
+
+
+
         }
 
         /// <summary>
@@ -118,7 +121,7 @@ namespace Pacman
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            
+
             //  changing the back buffer size changes the window size (when in windowed mode)
             graphics.PreferredBackBufferWidth = 1024;
             graphics.PreferredBackBufferHeight = 660;
@@ -128,9 +131,9 @@ namespace Pacman
             bean = new ObjetAnime(Content.Load<Texture2D>("Images\\bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
             booster = new ObjetAnime(Content.Load<Texture2D>("Images\\gros_bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
             textFont = Content.Load<SpriteFont>("aFont");
-            
 
-        } 
+
+        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -152,9 +155,50 @@ namespace Pacman
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-            
             // TODO: Add your update logic her
+            ghostCollision();
+            eatBean();
+            eatBooster();
             base.Update(gameTime);
+        }
+
+        private void eatBean()
+        {
+            if (engine.eatBean(pacman)) {
+                pacmanEatBean();
+            }
+        }
+
+        private void eatBooster()
+        {
+            if (engine.eatBooster(pacman))
+            {
+                pacmanEatBooster();
+            }
+        }
+
+        private void ghostCollision() {
+            bool ghostCollision = false;
+            foreach (Ghost ghost in ghosts)
+            {
+                if (engine.ghostCollision(pacman, ghost))
+                {
+                    ghostCollision = true;
+                    ghost.respawn();
+                }
+            }
+            if (ghostCollision)
+            {
+                if (pacman.IsInvincible)
+                {
+                    // Augmenter le score
+                }
+                else {
+                    pacman.respawn();
+                }
+
+
+            }
         }
 
         /// <summary>
@@ -167,7 +211,7 @@ namespace Pacman
 
             drawMap();
             drawMessage();
-            
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
@@ -175,22 +219,27 @@ namespace Pacman
             base.Draw(gameTime);
         }
 
-        public void addMessage(Message message) {
+        public void addMessage(Message message)
+        {
             messages.Add(message);
         }
 
-        public void drawMessage() {
-            for(int i = 0; i < messages.Count; i++) {
+        public void drawMessage()
+        {
+            for (int i = 0; i < messages.Count; i++)
+            {
                 Message message = messages.ElementAt(i);
                 spriteBatch.DrawString(this.textFont, message.Text, message.Position, Color.DarkRed);
-                if (message.isObsolete()) {
+                if (message.isObsolete())
+                {
                     messages.Remove(message);
                     i--;
                 }
             }
         }
 
-        private void drawMap() {            
+        private void drawMap()
+        {
 
             for (int y = 0; y < VY; y++)
             {
@@ -214,7 +263,7 @@ namespace Pacman
                         int xpos, ypos;
                         xpos = x * 20;
                         ypos = y * 20;
-                        Vector2 pos = new Vector2(xpos,ypos);
+                        Vector2 pos = new Vector2(xpos, ypos);
                         spriteBatch.Draw(bean.Texture, pos, Color.White);
                     }
                     else if (map[y, x] == 3)
@@ -230,7 +279,8 @@ namespace Pacman
             test = false;
         }
 
-        public GameEngine getGameEngine() {
+        public GameEngine getGameEngine()
+        {
             return engine;
         }
 
@@ -243,10 +293,8 @@ namespace Pacman
 
         public void pacmanEatBean()
         {
-            
-            -- nbBeanRemaining;
+            --nbBeanRemaining;
             playerScore += scoreEatBean;
-
         }
 
         public void pacmanEatGhost(Ghost ghost)
@@ -259,20 +307,5 @@ namespace Pacman
             --nbLifes;
         }
 
-        //Returns the number of beans (AT THE BEGINNING)
-        public int countNbBeans()
-        {
-            int nbBeans = 0;
-            for(int i=0; i<VX; ++i){
-                for (int j = 0; j < VY; ++j)
-                {
-                    if (map[i, j] == 1 || map[i, j] == 3)
-                    {
-                        ++nbBeans;
-                    }
-                }
-            }
-            return nbBeans;
-        }
     }
 }

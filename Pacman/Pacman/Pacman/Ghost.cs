@@ -73,10 +73,7 @@ namespace Pacman
 
         }
 
-        public void respawn()
-        {
-            // When the Ghost has been eated
-        }
+        
 
         override
         protected void textureUpdate()

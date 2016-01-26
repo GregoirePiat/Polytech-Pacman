@@ -29,7 +29,19 @@ namespace Pacman
          * 1 : right
           */
         protected int direction;
-        
+
+        public ObjetAnime element
+        {
+            get
+            {
+                return entity;
+            }
+
+            set
+            {
+                entity = value;
+            }
+        }
 
         public Entity(Game game, Dictionary<int, string> textures)
             : base(game)
@@ -140,6 +152,11 @@ namespace Pacman
 
         private PacmanGame getPacmanGame() {
             return (PacmanGame)this.Game;
+        }
+
+        public void respawn()
+        {
+            entity.Position = positionInit;
         }
 
         abstract protected void changeDirection();
