@@ -21,6 +21,7 @@ namespace Pacman
         SpriteFont textFont;
         private ObjetAnime mur;
         private ObjetAnime bean;
+        private ObjetAnime booster;
         private Pacman pacman;
         private List<Ghost> ghosts;
         private Joueur joueur;
@@ -47,7 +48,7 @@ namespace Pacman
 
             map = new byte[VY,VX]{
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+            {0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0},
             {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
             {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
             {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
@@ -75,7 +76,7 @@ namespace Pacman
             {0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0},
             {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
             {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-            {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+            {0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 
         };
@@ -95,9 +96,6 @@ namespace Pacman
             Content.RootDirectory = "Content";
             engine = new GameEngine(map,VX,VY);
             messages = new List<Message>();
-
-
-
         }
 
         /// <summary>
@@ -128,6 +126,7 @@ namespace Pacman
             // on charge un objet mur 
             mur = new ObjetAnime(Content.Load<Texture2D>("Images\\mur"), new Vector2(0f, 0f), new Vector2(20f, 20f));
             bean = new ObjetAnime(Content.Load<Texture2D>("Images\\bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
+            booster = new ObjetAnime(Content.Load<Texture2D>("Images\\gros_bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
             textFont = Content.Load<SpriteFont>("aFont");
             
 
@@ -153,9 +152,8 @@ namespace Pacman
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-            // TODO: Add your update logic her
             
-
+            // TODO: Add your update logic her
             base.Update(gameTime);
         }
 
@@ -219,6 +217,14 @@ namespace Pacman
                         Vector2 pos = new Vector2(xpos,ypos);
                         spriteBatch.Draw(bean.Texture, pos, Color.White);
                     }
+                    else if (map[y, x] == 3)
+                    {
+                        int xpos, ypos;
+                        xpos = x * 20;
+                        ypos = y * 20;
+                        Vector2 pos = new Vector2(xpos, ypos);
+                        spriteBatch.Draw(booster.Texture, pos, Color.White);
+                    }
                 }
             }
             test = false;
@@ -237,8 +243,10 @@ namespace Pacman
 
         public void pacmanEatBean()
         {
+            
             -- nbBeanRemaining;
             playerScore += scoreEatBean;
+
         }
 
         public void pacmanEatGhost(Ghost ghost)
@@ -251,5 +259,20 @@ namespace Pacman
             --nbLifes;
         }
 
+        //Returns the number of beans (AT THE BEGINNING)
+        public int countNbBeans()
+        {
+            int nbBeans = 0;
+            for(int i=0; i<VX; ++i){
+                for (int j = 0; j < VY; ++j)
+                {
+                    if (map[i, j] == 1 || map[i, j] == 3)
+                    {
+                        ++nbBeans;
+                    }
+                }
+            }
+            return nbBeans;
+        }
     }
 }

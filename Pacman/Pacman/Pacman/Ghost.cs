@@ -36,12 +36,8 @@ namespace Pacman
             {
                 textures.Add(1, "Images\\fantomeVert");
             }
-
-            if (color == "red" || color == "blue" || color == "red" || color == "green")
-            {
-                textures.Add(2, "Images\\FantomePeur0");
-                textures.Add(3, "Images\\FantomePeur1");
-            }
+            textures.Add(2, "Images\\FantomePeur0");
+            textures.Add(3, "Images\\FantomePeur1");
 
             return textures;
         }
