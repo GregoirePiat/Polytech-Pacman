@@ -31,6 +31,9 @@ namespace Pacman
         private byte[,] map;
         private List<Message> messages;
         private bool test = true;
+        private SoundEffect pacmanDeadSound;
+        private SoundEffect eatBeanSound;
+        private SoundEffect pacmanInvicibleSound;
         public int nbBeanTotal = 0;
         public int nbBeanRemaining = 0;
         public int nbLifes = 0;
@@ -111,6 +114,7 @@ namespace Pacman
         {
             // TODO: Add your initialization logic here
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            //spriteBatch.DrawString(textFont, "Score :", new Vector2(580, 20), Color.White);
             base.Initialize();
         }
 
@@ -131,6 +135,9 @@ namespace Pacman
             bean = new ObjetAnime(Content.Load<Texture2D>("Images\\bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
             booster = new ObjetAnime(Content.Load<Texture2D>("Images\\gros_bean"), new Vector2(0f, 0f), new Vector2(20f, 20f));
             textFont = Content.Load<SpriteFont>("aFont");
+            pacmanDeadSound = Content.Load<SoundEffect>("Musiques\\PacmanEaten");
+            eatBeanSound = Content.Load<SoundEffect>("Musiques\\PelletEat1");
+            pacmanInvicibleSound = Content.Load<SoundEffect>("Musiques\\Invincible");
 
 
         }
@@ -159,6 +166,7 @@ namespace Pacman
             ghostCollision();
             eatBean();
             eatBooster();
+            updateGhostsTexture();
             base.Update(gameTime);
         }
 
@@ -191,10 +199,11 @@ namespace Pacman
             {
                 if (pacman.IsInvincible)
                 {
-                    // Augmenter le score
+                    pacmanEatGhost();
                 }
                 else {
                     pacman.respawn();
+                    soundEffect(pacmanDeadSound);
                 }
 
 
@@ -208,7 +217,7 @@ namespace Pacman
         protected override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-
+            messages.Add(new Message(playerScore.ToString(), new Vector2(580, 100), 10));
             drawMap();
             drawMessage();
 
@@ -287,24 +296,40 @@ namespace Pacman
         public void pacmanEatBooster()
         {
             pacmanEatBean();
-            pacman.IsInvincible = true;
+            //pacman.IsInvincible = true;
             playerScore += scoreEatBooster;
+            soundEffect(pacmanInvicibleSound);
+            messages.Add(new Message("You ate a booster, you are now INVICIBLE !", new Vector2(580,400), 8000));
         }
 
         public void pacmanEatBean()
         {
             --nbBeanRemaining;
             playerScore += scoreEatBean;
+            soundEffect(eatBeanSound);            
         }
 
-        public void pacmanEatGhost(Ghost ghost)
+        public void pacmanEatGhost()
         {
             playerScore += scoreEatGhost;
+            messages.Add(new Message("You ate a ghost !", new Vector2(580, 500), 3000));
         }
 
         public void eatedByGhost()
         {
             --nbLifes;
+        }
+
+        public void updateGhostsTexture()
+        {
+
+        }
+
+        private void soundEffect(SoundEffect soundEffect)
+        {
+            SoundEffectInstance soundInstance= soundEffect.CreateInstance();
+            soundInstance.Pitch = 0;
+            soundInstance.Play();
         }
 
     }

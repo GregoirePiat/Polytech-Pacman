@@ -67,7 +67,6 @@ namespace Pacman
             }
 
         }
-
         public bool IsInvincible
         {
             get { return isInvincible; }

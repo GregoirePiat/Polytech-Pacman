@@ -160,8 +160,5 @@ namespace Pacman
         }
 
         abstract protected void changeDirection();
-
-
-
     }
 }

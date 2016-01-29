@@ -90,11 +90,10 @@ namespace Pacman
                 y = 0;
             if (x < 0)
                 x = 0;
-
-
             if (map[y, x] == 3)
             {
                 map[y, x] = 2;
+                pacman.IsInvincible = true;
                 return true;
             }
             return false;
