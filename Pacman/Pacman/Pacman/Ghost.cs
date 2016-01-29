@@ -78,7 +78,7 @@ namespace Pacman
         override
         protected void textureUpdate()
         {
-
+            entity.Texture = Game.Content.Load<Texture2D>(textures[2]);
         }
     }
 }
