@@ -11,7 +11,7 @@ namespace Pacman
     {
         private const int REFRESH_RATE = 10;
         private int refreshSwitch;
-        private bool isInvincible = false;
+        private bool isInvincible;
         
         private Boolean textureSwitch;
 
@@ -33,6 +33,7 @@ namespace Pacman
             : base(game, Textures())
         {
             textureSwitch = false;
+            isInvincible = false;
         }
 
         public override void Initialize()
