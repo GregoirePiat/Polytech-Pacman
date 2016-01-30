@@ -42,7 +42,7 @@ namespace Pacman
         public int scoreEatBean = 100;
         public int scoreEatBooster = 200;
         public int scoreEatGhost = 1000;
-        public int playerScore = 0;
+
 
 
 
@@ -61,13 +61,13 @@ namespace Pacman
             {0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0},
             {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 2, 2, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 2, 2, 2, 2, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1},
+            {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2, 2, 2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
@@ -127,8 +127,8 @@ namespace Pacman
             // Create a new SpriteBatch, which can be used to draw textures.
 
             //  changing the back buffer size changes the window size (when in windowed mode)
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 660;
+            graphics.PreferredBackBufferWidth = 960;
+            graphics.PreferredBackBufferHeight = 620;
             graphics.ApplyChanges();
             // on charge un objet mur 
             mur = new ObjetAnime(Content.Load<Texture2D>("Images\\mur"), new Vector2(0f, 0f), new Vector2(20f, 20f));
@@ -203,6 +203,7 @@ namespace Pacman
                 }
                 else {
                     pacman.respawn();
+                    joueur.Life-=1;
                     soundEffect(pacmanDeadSound);
                 }
 
@@ -217,7 +218,8 @@ namespace Pacman
         protected override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            messages.Add(new Message(playerScore.ToString(), new Vector2(580, 100), 10));
+            messages.Add(new Message("Score : " + joueur.Score.ToString(), new Vector2(580, 100), 10));
+            messages.Add(new Message("Vie : " + joueur.Life.ToString(), new Vector2(580, 140), 10));
             drawMap();
             drawMessage();
 
@@ -296,22 +298,21 @@ namespace Pacman
         public void pacmanEatBooster()
         {
             pacmanEatBean();
-            //pacman.IsInvincible = true;
-            playerScore += scoreEatBooster;
+            joueur.Score += scoreEatBooster;
             soundEffect(pacmanInvicibleSound);
-            messages.Add(new Message("You ate a booster, you are now INVICIBLE !", new Vector2(580,400), 8000));
+            messages.Add(new Message("You ate a booster, you are now INVICIBLE !", new Vector2(580,400), 15000));
         }
 
         public void pacmanEatBean()
         {
             --nbBeanRemaining;
-            playerScore += scoreEatBean;
+            joueur.Score += scoreEatBean;
             soundEffect(eatBeanSound);            
         }
 
         public void pacmanEatGhost()
         {
-            playerScore += scoreEatGhost;
+            joueur.Score += scoreEatGhost;
             messages.Add(new Message("You ate a ghost !", new Vector2(580, 500), 3000));
         }
 

@@ -154,7 +154,7 @@ namespace Pacman
             return (PacmanGame)this.Game;
         }
 
-        public void respawn()
+        virtual public void respawn()
         {
             entity.Position = positionInit;
         }

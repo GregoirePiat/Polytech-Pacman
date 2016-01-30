@@ -93,7 +93,7 @@ namespace Pacman
             if (map[y, x] == 3)
             {
                 map[y, x] = 2;
-                pacman.IsInvincible = true;
+                pacman.startInvincible();
                 return true;
             }
             return false;

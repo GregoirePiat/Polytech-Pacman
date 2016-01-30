@@ -16,6 +16,7 @@ namespace Pacman
 
         private int id;
         private int timeChange;
+        private bool firstChange;
 
         private static Dictionary<int, string> Textures(String color)
         {
@@ -42,6 +43,13 @@ namespace Pacman
             return textures;
         }
 
+        
+        override public void respawn() {
+            base.respawn();
+            firstChange = true;
+            direction = 4;
+        }
+
         public Ghost(Game game, string name)
             : base(game, Textures(name))
         {
@@ -49,6 +57,7 @@ namespace Pacman
             direction = 4;
             id = ++ID;
             timeChange = 600 + id * 300;
+            firstChange = true;
         }
 
         public override void Initialize()
@@ -67,8 +76,9 @@ namespace Pacman
             if (direction == 0 || watch.ElapsedMilliseconds > timeChange)
             {
                 Random random = new Random();
-                direction = random.Next(1, 5);
+                direction = random.Next(1, (firstChange)?3:5);
                 watch.Restart();
+                firstChange = false;
             }
 
         }

@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace Pacman
 {
     public class Pacman : Entity
     {
         private const int REFRESH_RATE = 10;
+        private const int TIME_INVICIBLE = 15000;
         private int refreshSwitch;
         private bool isInvincible;
-        
+
+        private Stopwatch watch;
         private Boolean textureSwitch;
 
         private static Dictionary<int, string> Textures()
@@ -34,6 +37,7 @@ namespace Pacman
         {
             textureSwitch = false;
             isInvincible = false;
+            watch = new Stopwatch();
         }
 
         public override void Initialize()
@@ -44,6 +48,11 @@ namespace Pacman
 
         public override void Update(GameTime gameTime)
         {
+            if (watch.ElapsedMilliseconds > TIME_INVICIBLE) {
+                watch.Reset();
+                IsInvincible = false;
+            }
+
             base.Update(gameTime);
         }
 
@@ -67,6 +76,12 @@ namespace Pacman
             }
 
         }
+
+        public void startInvincible() {
+            watch.Start();
+            IsInvincible = true;
+        }
+
         public bool IsInvincible
         {
             get { return isInvincible; }
