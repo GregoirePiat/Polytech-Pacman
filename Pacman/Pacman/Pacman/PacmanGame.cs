@@ -35,8 +35,7 @@ namespace Pacman
         private SoundEffect eatBeanSound;
         private SoundEffect pacmanInvicibleSound;
         public int nbBeanTotal = 0;
-        public int nbBeanRemaining = 0;
-        public int nbLifes = 0;
+        public int nbBeanRemaining = 308;
 
         // Gestion des scores
         public int scoreEatBean = 100;
@@ -93,17 +92,12 @@ namespace Pacman
             System.Threading.Thread.Sleep(50);
             ghosts.Add(new Ghost(this, "green"));
 
-
             joueur = new Joueur();
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             engine = new GameEngine(map, VX, VY);
             messages = new List<Message>();
-
-
-
         }
-
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -117,7 +111,6 @@ namespace Pacman
             //spriteBatch.DrawString(textFont, "Score :", new Vector2(580, 20), Color.White);
             base.Initialize();
         }
-
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -125,7 +118,6 @@ namespace Pacman
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-
             //  changing the back buffer size changes the window size (when in windowed mode)
             graphics.PreferredBackBufferWidth = 960;
             graphics.PreferredBackBufferHeight = 620;
@@ -138,8 +130,6 @@ namespace Pacman
             pacmanDeadSound = Content.Load<SoundEffect>("Musiques\\PacmanEaten");
             eatBeanSound = Content.Load<SoundEffect>("Musiques\\PelletEat1");
             pacmanInvicibleSound = Content.Load<SoundEffect>("Musiques\\Invincible");
-
-
         }
 
         /// <summary>
@@ -162,10 +152,19 @@ namespace Pacman
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-            // TODO: Add your update logic her
             ghostCollision();
             eatBean();
             eatBooster();
+            if (joueur.Life <= 0)
+            {
+                Exit();
+            }
+            if (nbBeanRemaining == 0)
+            {
+                Exit();
+            }
+
+            spriteBatch.End();
             updateGhostsTexture();
             base.Update(gameTime);
         }
@@ -222,10 +221,7 @@ namespace Pacman
             messages.Add(new Message("Vie : " + joueur.Life.ToString(), new Vector2(580, 140), 10));
             drawMap();
             drawMessage();
-
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -251,7 +247,6 @@ namespace Pacman
 
         private void drawMap()
         {
-
             for (int y = 0; y < VY; y++)
             {
                 for (int x = 0; x < VX; x++)
@@ -318,7 +313,7 @@ namespace Pacman
 
         public void eatedByGhost()
         {
-            --nbLifes;
+            --joueur.Life;
         }
 
         public void updateGhostsTexture()
@@ -332,6 +327,5 @@ namespace Pacman
             soundInstance.Pitch = 0;
             soundInstance.Play();
         }
-
     }
 }
