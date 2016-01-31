@@ -163,8 +163,6 @@ namespace Pacman
             {
                 Exit();
             }
-
-            spriteBatch.End();
             updateGhostsTexture();
             base.Update(gameTime);
         }
